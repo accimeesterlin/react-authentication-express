@@ -7,18 +7,16 @@ import SignUp from './components/signup/SignUp';
 import Profile from './components/profile/Profile';
 import Dashboard from './components/dashboard/Dashboard';
 
-const IsComponentAuthenticated = (props) => {
-  const path = props.path;
-  const Component = props.component;
 
-  const isAuthenticated = window.isAuthenticated || false;
+const isAuthenticated = false;
 
-  if (isAuthenticated) {
-    return <Route path={path} component = {Component} />
-  }
-
-  return <Redirect to = "/" />
-};
+const PrivateRoute = ({ component: Component, path: url }) => (
+  <Route path={url}  render={(props) => (
+    isAuthenticated === true
+      ? <Component {...props} />
+      : <Redirect to='/' />
+  )} />
+)
 
 
 class App extends Component {
@@ -27,8 +25,9 @@ class App extends Component {
       <div className="App">
         <Route path exact = '/' component={SignUp}/>
         <Route path = '/signin' component={SignIn}/>
+        <PrivateRoute path = '/dashboard' component={Dashboard}/>
 
-        <IsComponentAuthenticated path = "/profile" component={Profile}/>
+        <PrivateRoute path = "/profile" component={Profile}/>
       </div>
     );
   }

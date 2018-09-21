@@ -67,6 +67,7 @@ export default class SignUp extends Component {
                 </form>
 
                 <Link to="/signin">Go to the Signin</Link>
+                <br/>
 
             </div>
         )
